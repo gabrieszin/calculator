@@ -123,21 +123,13 @@ btnHistory.addEventListener('click', () => {
 
   Swal.fire(
     "<h5> Últimos Cálculos </h5><span class='alert-format'><br>" + printHistory +'<div><br><button id="limpar-armazenados" style="width:max-content; padding: 0 1rem;"><i class="fa-solid fa-trash-can"></i></button></div></span>'
-    )
+  )
 
-    document.querySelector('#limpar-armazenados').addEventListener('click', () => {
-      window.location.reload();
-      limparArmazenados();
-    })
+  document.querySelector('#limpar-armazenados').addEventListener('click', () => {
+    window.location.reload();
+    limparArmazenados();
   })
-  
-  themeToggleBtn.onclick = () => {
-    btnHistory.classList.toggle('dark');
-    calculator.classList.toggle('dark');
-    document.querySelector('body').classList.toggle('body-dark');
-    themeToggleBtn.classList.toggle('active');
-    isDark = !isDark;
-  }
+})
 
 document.addEventListener('keyup', (evento) => {
   evento.preventDefault();
@@ -239,3 +231,15 @@ document.addEventListener('keyup', (evento) => {
     display.value = display.value.substring(0, (display.value.length - 1));
   }
 })
+
+themeToggleBtn.onclick = () => {
+  alternarTema();
+}
+
+function alternarTema(){
+  btnHistory.classList.toggle('dark');
+  calculator.classList.toggle('dark');
+  document.querySelector('body').classList.toggle('body-dark');
+  themeToggleBtn.classList.toggle('active');
+  isDark = !isDark;
+}
