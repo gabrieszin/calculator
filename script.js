@@ -94,8 +94,12 @@ function armazenarCalculo(calculo, resultado){
 
     localStorage.setItem('calculos', JSON.stringify(armazenar));
   }catch(error){
-    localStorage.clear();
+    limparArmazenados();
   }
+}
+
+function limparArmazenados(){
+  localStorage.clear();
 }
 
 btnHistory.addEventListener('click', () => {
@@ -114,12 +118,17 @@ btnHistory.addEventListener('click', () => {
       }
     }
   }catch(error){
-    localStorage.clear();
+    limparArmazenados();
   }
 
   Swal.fire(
-    "<h5> Últimos Cálculos </h5><span class='alert-format'>" + printHistory +'<button style="width:max-content; padding: 0rem 0.75rem;">Limpar</button></span>'
+    "<h5> Últimos Cálculos </h5><span class='alert-format'><br>" + printHistory +'<div><br><button id="limpar-armazenados" style="width:max-content; padding: 0 1rem;"><i class="fa-solid fa-trash-can"></i></button></div></span>'
     )
+
+    document.querySelector('#limpar-armazenados').addEventListener('click', () => {
+      window.location.reload();
+      limparArmazenados();
+    })
   })
   
   themeToggleBtn.onclick = () => {
