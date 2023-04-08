@@ -19,43 +19,7 @@ function calc(id){
     display.value = string.substring(0, string.length - 1);
   }else if(display.value !== '' && display.value != 'Vazio!' && id == 'equal'){
     formatResult('active');
-    let histCalc1 = sessionStorage.getItem('historyCalc[1]');
-    let histCalc2 = sessionStorage.getItem('historyCalc[2]');
-    let histCalc3 = sessionStorage.getItem('historyCalc[3]');
-    let histCalc4 = sessionStorage.getItem('historyCalc[4]');
-    let histCalc5 = sessionStorage.getItem('historyCalc[5]');
-    if(histCalc1 == null || histCalc2 == null || histCalc3 == null || histCalc3 == null || histCalc5 == null){
-      if(histCalc1 == null || histCalc1 == ""){
-        indexCurrent = 1;
-        sessionStorage.removeItem('historyCalc[2]');
-        sessionStorage.removeItem('historyRest[2]');
-      }else if(histCalc2 == null || histCalc2 == ""){
-        indexCurrent = 2;
-        sessionStorage.removeItem('historyCalc[3]');
-        sessionStorage.removeItem('historyRest[3]');
-      }else if(histCalc3 == null || histCalc3 == ""){
-        indexCurrent = 3;
-        sessionStorage.removeItem('historyCalc[4]');
-        sessionStorage.removeItem('historyRest[4]');
-        sessionStorage.removeItem('historyCalc[5]');
-        sessionStorage.removeItem('historyRest[5]');
-      }else if(histCalc4 == null || histCalc4 == ""){
-        indexCurrent = 4;
-      }else if(histCalc5 == null || histCalc5 == ""){
-        indexCurrent = 5;
-        sessionStorage.removeItem('historyCalc[1]');
-        sessionStorage.removeItem('historyRest[1]');
-      }
-      calcCurrent = 'historyCalc[' + indexCurrent + ']';
-      restCurrent = 'historyRest[' + indexCurrent + ']';
-    }else{
-      sessionStorage.clear();
-    }
-    sessionStorage.setItem(calcCurrent, display.value);
-    
-    calcular();
-
-    sessionStorage.setItem(restCurrent, display.value);
+    calcular();    
   }else if(display.textContent == 'Vazio!' || display.value == '' && id == 'equal'){
     formatResult('disabled');
     display.value = 'Vazio!';
@@ -77,46 +41,84 @@ const formatResult = (status) => {
 }
 
 function calcular(){
+  let resultado = null;
   try{
-    const resultado = eval(display.value);
-    display.value = resultado !== undefined ? resultado : '';
+    resultado = eval(display.value);
+
+    if(resultado !== undefined){
+      armazenarCalculo(display.value, resultado);
+    }else{
+      resultado = '';
+    }
+    
+    display.value = resultado;
+
   }catch(error){
     try{
-      const resultado = eval(display.value.substring(0, (display.value.length - 1)));
-      display.value = resultado !== undefined ? resultado : '';
+      resultado = eval(display.value.substring(0, (display.value.length - 1)));
+
+      if(resultado !== undefined){
+        armazenarCalculo(display.value, resultado);
+      }else{
+        resultado = '';
+      }
+      
+      display.value = resultado;
     }catch(error){
       
     }
   }
 }
 
-btnHistory.addEventListener('click', () => {
-  let histCalc1 = sessionStorage.getItem('historyCalc[1]');
-  let histCalc2 = sessionStorage.getItem('historyCalc[2]');
-  let histCalc3 = sessionStorage.getItem('historyCalc[3]');
-  let histCalc4 = sessionStorage.getItem('historyCalc[4]');
-  let histCalc5 = sessionStorage.getItem('historyCalc[5]');
-  let histRest1 = sessionStorage.getItem('historyRest[1]');
-  let histRest2 = sessionStorage.getItem('historyRest[2]');
-  let histRest3 = sessionStorage.getItem('historyRest[3]');
-  let histRest4 = sessionStorage.getItem('historyRest[4]');
-  let histRest5 = sessionStorage.getItem('historyRest[5]');
-  let printHistory;
-  if(histCalc5 != null && histCalc4 != null && histCalc3 != null && histCalc2 != null){
-    printHistory = histCalc2 + ' = ' + histRest2 + '<br>' + histCalc3 + ' = ' + histRest3 + '<br>' + histCalc4 + ' = ' + histRest4 + '<br>' + histCalc5 + ' = ' + histRest5 + '<br>';
-  }else if(histCalc4 != null&& histCalc3 != null && histCalc2 != null && histCalc1 !=null){
-    printHistory = histCalc1 + ' = ' + histRest1 + '<br>' + histCalc2 + ' = ' + histRest2 + '<br>' + histCalc3 + ' = ' + histRest3 + '<br>' + histCalc4 + ' = ' + histRest4 + '<br>';  
-  }else if(histCalc3 != null && histCalc2 != null && histCalc1 != null){
-    printHistory = histCalc1 + ' = ' + histRest1 + '<br>' + histCalc2 + ' = ' + histRest2 + '<br>' + histCalc3 + ' = ' + histRest3 + '<br>';
-  }else if(histCalc2 != null && histCalc1){
-    printHistory = histCalc1 + ' = ' + histRest1 + '<br>' + histCalc2 + ' = ' + histRest2 + '<br>';
-  }else if(histCalc1 != null){
-    printHistory = histCalc1 + ' = ' + histRest1 + '<br>';
-  }else{
-    printHistory =  'Você ainda não fez um cálculo';
+function armazenarCalculo(calculo, resultado){
+  try{
+    const armazenado = JSON.parse(localStorage.getItem('calculos'));
+    let registro = {calculo: calculo, resultado: resultado};
+    let armazenar = new Array();
+    
+    if(armazenado !== null && Array.isArray(armazenado)){
+      if(armazenado.find(e => e.calculo == registro.calculo && e.resultado == registro.resultado) == undefined){
+        armazenar.push(registro);
+      }
+      
+      if(armazenado.length < 10){
+        armazenado.forEach(registro => { 
+          armazenar.push(registro)
+        });
+      }else{
+        localStorage.setItem('calculos', JSON.stringify(armazenar));
+      }
+    }else{
+      armazenar.push(registro)
+    }
+
+    localStorage.setItem('calculos', JSON.stringify(armazenar));
+  }catch(error){
+    localStorage.clear();
   }
+}
+
+btnHistory.addEventListener('click', () => {
+  let printHistory = 'Você precisa fazer um cálculo primeiro';
+  const history = JSON.parse(localStorage.getItem('calculos'));
+
+  try{
+    if(history !== null){
+      printHistory = '';
+      if(Array.isArray(history)){
+        history.forEach(element => {
+          printHistory += `${element.calculo} = ${element.resultado} <br>`
+        })
+      }else{
+        printHistory = `${history.calculo} = ${history.resultado}`;
+      }
+    }
+  }catch(error){
+    localStorage.clear();
+  }
+
   Swal.fire(
-    "<h5> Últimos Cálculos </h5><span class='alert-format'>" + printHistory +'</span>'
+    "<h5> Últimos Cálculos </h5><span class='alert-format'>" + printHistory +'<button style="width:max-content; padding: 0rem 0.75rem;">Limpar</button></span>'
     )
   })
   
