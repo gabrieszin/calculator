@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora</title>
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="calculator dark">
+      <button id="history" class="dark"><i class="fa-solid fa-clock-rotate-left"></i></button>
+      <div class="theme-toggler active">
+        <i class="toggler-icon"></i>
+      </div>
+      <div class="display-screen">
+        <input type="text" id="display" autofocus>
+        <!-- <div id="display"></div> -->
+      </div>
+      <div class="buttons">
+        <table>
+          <tr>
+            <td><button class="btn-operator" id="clear" onclick="calc(this.id)">C</button></td>
+            <td><button class="btn-operator" id="/" onclick="calc(this.id)">&divide;</button></td>
+            <td><button class="btn-operator" id="*" onclick="calc(this.id)">&times;</button></td>
+            <td><button class="btn-operator" id="backspace" onclick="calc(this.id)"><</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn-number" id="7" onclick="calc(this.id)">7</button></td>
+            <td><button class="btn-number" id="8" onclick="calc(this.id)">8</button></td>
+            <td><button class="btn-number" id="9" onclick="calc(this.id)">9</button></td>
+            <td><button class="btn-operator" id="-" onclick="calc(this.id)">-</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn-number" id="4" onclick="calc(this.id)">4</button></td>
+            <td><button class="btn-number" id="5" onclick="calc(this.id)">5</button></td>
+            <td><button class="btn-number" id="6" onclick="calc(this.id)">6</button></td>
+            <td><button class="btn-operator" id="+" onclick="calc(this.id)">+</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn-number" id="1" onclick="calc(this.id)">1</button></td>
+            <td><button class="btn-number" id="2" onclick="calc(this.id)">2</button></td>
+            <td><button class="btn-number" id="3" onclick="calc(this.id)">3</button></td>
+            <td><button class="btn-operator" id="." onclick="calc(this.id)">,</button></td>
+          </tr>
+          <tr>
+            <td><button class="btn-operator" id="(" onclick="calc(this.id)">(</button></td>
+            <td><button class="btn-number" id="0" onclick="calc(this.id)">0</button></td>
+            <td><button class="btn-operator" id=")" onclick="calc(this.id)">)</button></td>
+            <td><button class="etn-equal" id="equal" onclick="calc(this.id)">=</button></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
