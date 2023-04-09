@@ -7,6 +7,7 @@
   <title>Calculadora</title>
   <link rel="shortcut icon" href="./assets/img/favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/no-script.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
   <meta name="keywords" content="Calculadora; Soma; Subtração; Adição; Cálculos">
@@ -32,6 +33,21 @@
 
 </head>
 <body>
+  <noscript>
+    <div class="box-no-script">         
+      <div class="texto-pagina-centralizado-alt">
+        <h2 class="titulo-texto-pagina-centralizado">
+          Este site não funciona com o 
+          <span class="destaque-pagina-centralizado">Javascript desabilitado</span>
+        </h2>
+        <br>
+        <p class="label-texto-pagina-centralizado">Muitos dos recursos usados funcionam através do Javascript e sem ele a navegabilidade e o próprio funcionamento do site são comprometidos</p>
+        <p class="label-texto-pagina-centralizado">Portanto, habilite o Javascript e navegue pelo site</p><br>
+        <button data-recarrega-pagina class="btn-principal-no-script" id="btn-redirecionar-inicio" name="btn-redirecionar-inicio">Recarregar</button>
+      </div>
+    </div>
+  </noscript>
+
   <div class="container">
     <div class="calculator dark">
       <button id="history" class="dark"><i class="fa-solid fa-clock-rotate-left"></i></button>

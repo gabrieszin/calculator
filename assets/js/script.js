@@ -1,3 +1,9 @@
+document.querySelectorAll('[data-recarrega-pagina]').forEach(botao => {
+  botao.addEventListener('click', () => {
+    window.location.reload();
+  })
+})
+
 const display = document.querySelector('#display');
 const buttons = document.querySelector('button');
 const themeToggleBtn = document.querySelector('.theme-toggler');
@@ -44,7 +50,7 @@ function calcular(){
   let resultado = null;
   try{
     resultado = eval(display.value);
-
+    
     if(resultado !== undefined){
       armazenarCalculo(display.value, resultado);
     }else{
@@ -52,11 +58,11 @@ function calcular(){
     }
     
     display.value = resultado;
-
+    
   }catch(error){
     try{
       resultado = eval(display.value.substring(0, (display.value.length - 1)));
-
+      
       if(resultado !== undefined){
         armazenarCalculo(display.value, resultado);
       }else{
@@ -91,7 +97,7 @@ function armazenarCalculo(calculo, resultado){
     }else{
       armazenar.push(registro)
     }
-
+    
     localStorage.setItem('calculos', JSON.stringify(armazenar));
   }catch(error){
     limparArmazenados();
@@ -105,7 +111,7 @@ function limparArmazenados(){
 btnHistory.addEventListener('click', () => {
   let printHistory = 'Você precisa fazer um cálculo primeiro';
   const history = JSON.parse(localStorage.getItem('calculos'));
-
+  
   try{
     if(history !== null){
       printHistory = '';
@@ -120,126 +126,126 @@ btnHistory.addEventListener('click', () => {
   }catch(error){
     limparArmazenados();
   }
-
+  
   Swal.fire(
     "<h5> Últimos Cálculos </h5><span class='alert-format'><br>" + printHistory +'<div><br><button id="limpar-armazenados" style="width:max-content; padding: 0 1rem;"><i class="fa-solid fa-trash-can"></i></button></div></span>'
-  )
-
-  document.querySelector('#limpar-armazenados').addEventListener('click', () => {
-    window.location.reload();
-    limparArmazenados();
+    )
+    
+    document.querySelector('#limpar-armazenados').addEventListener('click', () => {
+      window.location.reload();
+      limparArmazenados();
+    })
   })
-})
-
-document.addEventListener('keyup', (evento) => {
-  evento.preventDefault();
-  display.focus();
-
-  if(evento.keyCode == 13){
-    formatResult('active');
-    calcular();
-    return '';
-  }else{
-    formatResult('disabled');
-  }
-
-  const codesValidos = [
-    {
-      nome: 'virgula',
-      caracter: '.',
-      codigo: 188
-    },
-
-    {
-      nome: 'ponto',
-      caracter: '.',
-      codigo: 190
-    },
-
-    {
-      nome: 'ponto',
-      caracter: '.',
-      codigo: 110
-    },
-
-    {
-      nome: 'apagar',
-      caracter: 'c',
-      codigo: 67
-    },
-
-    {
-      nome: 'divisao',
-      caracter: '/',
-      codigo: 191
-    },
-
-    {
-      nome: 'divisao',
-      caracter: '/',
-      codigo: 111
-    },
-
-    {
-      nome: 'subtracao',
-      caracter: '-',
-      codigo: 109
-    },
-
-    {
-      nome: 'subtracao',
-      caracter: '-',
-      codigo: 189
-    },
-
-    {
-      nome: 'adicao',
-      caracter: '+',
-      codigo: 107
-    },
-
-    {
-      nome: 'multiplicacao',
-      caracter: '*',
-      codigo: 16
-    },
-
-    {
-      nome: 'multiplicacao',
-      caracter: '*',
-      codigo: 106
-    },
-
-    {
-      nome: 'igual',
-      caracter: '=',
-      codigo: 187
-    }
-  ]
-
-  const caracteresEspeciais = [
-    '!', '@', '#', '$', ' %', '^', '&', '`', '"', '~'
-  ]
   
-  const cod = codesValidos.findIndex(e => e.codigo == evento.keyCode);
-  const numero = 
+  document.addEventListener('keyup', (evento) => {
+    evento.preventDefault();
+    display.focus();
+    
+    if(evento.keyCode == 13){
+      formatResult('active');
+      calcular();
+      return '';
+    }else{
+      formatResult('disabled');
+    }
+    
+    const codesValidos = [
+      {
+        nome: 'virgula',
+        caracter: '.',
+        codigo: 188
+      },
+      
+      {
+        nome: 'ponto',
+        caracter: '.',
+        codigo: 190
+      },
+      
+      {
+        nome: 'ponto',
+        caracter: '.',
+        codigo: 110
+      },
+      
+      {
+        nome: 'apagar',
+        caracter: 'c',
+        codigo: 67
+      },
+      
+      {
+        nome: 'divisao',
+        caracter: '/',
+        codigo: 191
+      },
+      
+      {
+        nome: 'divisao',
+        caracter: '/',
+        codigo: 111
+      },
+      
+      {
+        nome: 'subtracao',
+        caracter: '-',
+        codigo: 109
+      },
+      
+      {
+        nome: 'subtracao',
+        caracter: '-',
+        codigo: 189
+      },
+      
+      {
+        nome: 'adicao',
+        caracter: '+',
+        codigo: 107
+      },
+      
+      {
+        nome: 'multiplicacao',
+        caracter: '*',
+        codigo: 16
+      },
+      
+      {
+        nome: 'multiplicacao',
+        caracter: '*',
+        codigo: 106
+      },
+      
+      {
+        nome: 'igual',
+        caracter: '=',
+        codigo: 187
+      }
+    ]
+    
+    const caracteresEspeciais = [
+      '!', '@', '#', '$', ' %', '^', '&', '`', '"', '~'
+    ]
+    
+    const cod = codesValidos.findIndex(e => e.codigo == evento.keyCode);
+    const numero = 
     evento.keyCode >= 48 && evento.keyCode <= 57 || 
     evento.keyCode >= 96 && evento.keyCode <= 105 && 
     new RegExp('^[0-9]+$').test(evento.keyCode);
-
-  if(cod == -1 && !numero || caracteresEspeciais.includes(display.value[display.value.length - 1])){
-    display.value = display.value.substring(0, (display.value.length - 1));
+    
+    if(cod == -1 && !numero || caracteresEspeciais.includes(display.value[display.value.length - 1])){
+      display.value = display.value.substring(0, (display.value.length - 1));
+    }
+  })
+  
+  themeToggleBtn.onclick = () => {
+    alternarTema();
   }
-})
-
-themeToggleBtn.onclick = () => {
-  alternarTema();
-}
-
-function alternarTema(){
-  btnHistory.classList.toggle('dark');
-  calculator.classList.toggle('dark');
-  document.querySelector('body').classList.toggle('body-dark');
-  themeToggleBtn.classList.toggle('active');
-  isDark = !isDark;
-}
+  
+  function alternarTema(){
+    btnHistory.classList.toggle('dark');
+    calculator.classList.toggle('dark');
+    document.querySelector('body').classList.toggle('body-dark');
+    themeToggleBtn.classList.toggle('active');
+    isDark = !isDark;
+  }
